@@ -10,7 +10,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'Farmacia Online Pharol',
+    title: 'Fatura Facilita',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -22,7 +22,8 @@ module.exports = {
     ],
     //Implementación chatlio
     script: [
-        // { src: 'https://s3-us-west-2.amazonaws.com/pharol-v2/js/chatlio.js' }
+      { src: 'https://apis.google.com/js/api:client.js' }
+      // { src: 'https://s3-us-west-2.amazonaws.com/pharol-v2/js/chatlio.js' }
     ]
   },
   /*
@@ -38,6 +39,8 @@ module.exports = {
     '~plugins/vue-instantsearch',
     '~plugins/vue-notifyjs',
     '~plugins/socket-io',
+    '~plugins/loginFacebook',
+    '~plugins/loginGoogle',
     { src: '~/plugins/localStorage.js', ssr: false },
   ],
   css: [
