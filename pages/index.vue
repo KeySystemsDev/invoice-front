@@ -5,13 +5,13 @@
         <v-flex fluid xs12 md6 sm6>
           <v-text-field
             label="De"
-            v-model="email_from"
+            v-model="fromClient"
           ></v-text-field>
         </v-flex>
         <v-flex fluid xs12 md6 sm6>
           <v-text-field
             label="Para"
-            v-model="email_to"
+            v-model="toClient"
           ></v-text-field>
         </v-flex>
       </v-layout>
@@ -25,7 +25,7 @@
         <v-flex fluid xs12 md6 sm6>
           <v-text-field
             label="Numero"
-            v-model="number_invoice"
+            v-model="numberInvoice"
           ></v-text-field>
         </v-flex>
       </v-layout>
@@ -48,7 +48,7 @@
         <v-flex fluid xs12 md6 sm6>
           <v-text-field
             label="Sub Total"
-            v-model="sub_total"
+            v-model="subTotal"
           ></v-text-field>
         </v-flex>
         <v-flex fluid xs12 md6 sm6>
@@ -86,6 +86,16 @@
           ></v-text-field>
         </v-flex>
       </v-layout>
+      <v-layout row wrap>
+        <v-flex fluid xs12 md6 sm6>
+          <v-select
+            :items="itemsCategory"
+            v-model="category"
+            label="Rubro"
+          ></v-select>
+        </v-flex>
+
+      </v-layout>
       <hr>
       <v-layout row wrap  v-for="(input, index) in inputs" :key="index">
         <v-flex xs12 md6 sm6>
@@ -121,6 +131,10 @@
         <v-btn color="success" @click="addRow()">Agregar</v-btn>
       </v-flex>
 
+      <v-flex xs12 md1 sm1>
+        <v-btn color="success" @click="sendInvoice()">Enviar</v-btn>
+      </v-flex>
+
     </v-container>
   </div>
 </template>
@@ -133,41 +147,69 @@
       return {
         inputs: [
           {
-            description: '',
+            description: 'Descripción 0',
             price: 0,
             quantity: 0,
             amount: 0
           }
         ],
-        email_from: 'diego.carciente@gmail.com',
-        email_to: 'diego.carciente@gmail.com',
+        fromClient: 'diego.carciente@gmail.com',
+        toClient: 'diego.carciente@gmail.com',
         date: '99/99/9999',
-        number_invoice: 99,
+        numberInvoice: 99,
         payment: 'contado',
         itemsPayment: [
           'contado', 'transferencia'
         ],
         expiration: '99/99/9999',
-        sub_total: 999,
+        subTotal: 999,
         discount: 9,
         shipping: 99,
         tax: 9,
         total: 999,
         note: 'Notas',
         terms: 'Terminos y condiciones',
-        category: null,
+        category: 'Informática',
         itemsCategory: [
-          'Informática, Abogados, Consultoria, Tienda'
+          'Informática', 'Abogados', 'Consultoria', 'Tienda'
         ],
       }
     },
     methods: {
+      sendInvoice(){
+        axios({
+          method:'POST',
+          url:`http://localhost:3002/api/invoice`,
+          data: {
+            from_client: this.fromClient,
+            to_client: this.toClient,
+            date: this.date,
+            number_invoice: this.numberInvoice,
+            payment: this.payment,
+            expiration: this.expiration,
+            sub_total: this.subTotal,
+            discount: this.discount,
+            shipping: this.shipping,
+            tax: this.tax,
+            total: this.total,
+            note: this.note,
+            terms: this.terms,
+            category: this.category,
+            items: this.inputs
+          }
+        })
+        .then(function(response) {
+          console.log(response);
+        });
+
+      },
       addRow() {
+        let i = this.inputs.length;
         this.inputs.push({
-          description: '',
-          price: 0,
-          quantity: 0,
-          amount: 0
+          description: ` Descripcion ${i}`,
+          price: i,
+          quantity: i,
+          amount: i
         })
         console.log(this.inputs);
       },
