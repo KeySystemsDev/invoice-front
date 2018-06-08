@@ -30,6 +30,14 @@
         </v-flex>
       </v-layout>
       <v-layout row wrap>
+        <v-flex fluid xs12 md12 sm12>
+          <v-text-field
+            label="Asunto"
+            v-model="subject"
+          ></v-text-field>
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap>
         <v-flex fluid xs12 md6 sm6>
           <v-text-field
             label="Fecha"
@@ -189,6 +197,7 @@
         from: 'diego.carciente@gmail.com',
         toClient: 'Sol Coello',
         to: 'diego.carciente@gmail.com, solcarycoello@gmail.com',
+        subject: 'Asunto',
         date: '99/99/9999',
         numberInvoice: 99,
         payment: 'contado',
@@ -219,6 +228,7 @@
             to: this.to,
             cc: this.toClient,
             bcc: this.toClient,
+            subject: this.subject,
             from_client: this.fromClient,
             to_client: this.toClient,
             date: this.date,
