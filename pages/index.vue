@@ -4,14 +4,28 @@
       <v-layout row wrap>
         <v-flex fluid xs12 md6 sm6>
           <v-text-field
-            label="De"
+            label="Su Nombre"
             v-model="fromClient"
           ></v-text-field>
         </v-flex>
         <v-flex fluid xs12 md6 sm6>
           <v-text-field
-            label="Para"
+            label="Destinatario"
             v-model="toClient"
+          ></v-text-field>
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap>
+        <v-flex fluid xs12 md6 sm6>
+          <v-text-field
+            label="De"
+            v-model="from"
+          ></v-text-field>
+        </v-flex>
+        <v-flex fluid xs12 md6 sm6>
+          <v-text-field
+            label="Para"
+            v-model="to"
           ></v-text-field>
         </v-flex>
       </v-layout>
@@ -46,48 +60,6 @@
       </v-layout>
       <v-layout row wrap>
         <v-flex fluid xs12 md6 sm6>
-          <v-text-field
-            label="Sub Total"
-            v-model="subTotal"
-          ></v-text-field>
-        </v-flex>
-        <v-flex fluid xs12 md6 sm6>
-          <v-text-field
-            label="Descuento"
-            v-model="discount"
-          ></v-text-field>
-        </v-flex>
-      </v-layout>
-      <v-layout row wrap>
-        <v-flex fluid xs12 md6 sm6>
-          <v-text-field
-            label="Envío"
-            v-model="shipping"
-          ></v-text-field>
-        </v-flex>
-        <v-flex fluid xs12 md6 sm6>
-          <v-text-field
-            label="Impuesto"
-            v-model="tax"
-          ></v-text-field>
-        </v-flex>
-      </v-layout>
-      <v-layout row wrap>
-        <v-flex fluid xs12 md6 sm6>
-          <v-text-field
-            label="Total"
-            v-model="total"
-          ></v-text-field>
-        </v-flex>
-        <v-flex fluid xs12 md6 sm6>
-          <v-text-field
-            label="Impuesto"
-            v-model="tax"
-          ></v-text-field>
-        </v-flex>
-      </v-layout>
-      <v-layout row wrap>
-        <v-flex fluid xs12 md6 sm6>
           <v-select
             :items="itemsCategory"
             v-model="category"
@@ -107,19 +79,24 @@
         <v-flex xs12 md2 sm2>
           <v-text-field
             label="Precio"
+            type="number"
             v-model="input.price"
           ></v-text-field>
         </v-flex>
         <v-flex xs12 md1 sm1>
           <v-text-field
             label="Cantidad"
+            type="number"
             v-model="input.quantity"
+            :change="calculateAmount(index, input.price, input.quantity)"
+
           ></v-text-field>
         </v-flex>
         <v-flex xs12 md2 sm2>
           <v-text-field
             label="Amount"
             v-model="input.amount"
+            disabled
           ></v-text-field>
         </v-flex>
         <v-flex xs12 md1 sm1>
@@ -127,9 +104,64 @@
         </v-flex>
       </v-layout>
 
-      <v-flex xs12 md1 sm1>
-        <v-btn color="success" @click="addRow()">Agregar</v-btn>
-      </v-flex>
+
+      <v-layout row wrap>
+        <v-flex xs12 md1 sm1>
+          <v-btn color="success" @click="addRow()">Agregar</v-btn>
+        </v-flex>
+      </v-layout>
+
+      <v-layout row wrap>
+        <v-flex fluid xs12 md6 sm6>
+          <v-text-field
+            label="Envío"
+            type="number"
+            v-model="shipping"
+          ></v-text-field>
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap>
+        <v-flex fluid xs12 md6 sm6>
+          <v-text-field
+            label="Sub Total"
+            type="number"
+            v-model="subTotal"
+          ></v-text-field>
+        </v-flex>
+      </v-layout>
+      <v-layout row wrap>
+        <v-flex fluid xs12 md6 sm6>
+          <v-text-field
+            label="Impuesto"
+            type="number"
+            v-model="tax"
+          ></v-text-field>
+        </v-flex>
+        Sub total con impuesto: {{ subTotalTax }}
+      </v-layout>
+      <v-layout row wrap>
+        <v-flex fluid xs12 md6 sm6>
+          <v-text-field
+            label="Descuento"
+            type="number"
+            v-model="discount"
+          ></v-text-field>
+        </v-flex>
+      </v-layout>
+
+      <v-layout row wrap>
+        <v-flex fluid xs12 md6 sm6>
+          <v-text-field
+            label="Total"
+            v-model="total"
+          ></v-text-field>
+        </v-flex>
+        <v-flex fluid xs12 md6 sm6>
+
+        </v-flex>
+      </v-layout>
+
+
 
       <v-flex xs12 md1 sm1>
         <v-btn color="success" @click="sendInvoice()">Enviar</v-btn>
@@ -149,12 +181,14 @@
           {
             description: 'Descripción 0',
             price: 0,
-            quantity: 0,
+            quantity: 1,
             amount: 0
           }
         ],
-        fromClient: 'diego.carciente@gmail.com',
-        toClient: 'diego.carciente@gmail.com',
+        fromClient: 'Diego Carciente',
+        from: 'diego.carciente@gmail.com',
+        toClient: 'Sol Coello',
+        to: 'diego.carciente@gmail.com, solcarycoello@gmail.com',
         date: '99/99/9999',
         numberInvoice: 99,
         payment: 'contado',
@@ -162,11 +196,11 @@
           'contado', 'transferencia'
         ],
         expiration: '99/99/9999',
-        subTotal: 999,
-        discount: 9,
-        shipping: 99,
-        tax: 9,
-        total: 999,
+        discount: 0,
+        shipping: 0,
+        tax: 0,
+        // subTotal: 999,
+        // total: 0,
         note: 'Notas',
         terms: 'Terminos y condiciones',
         category: 'Informática',
@@ -179,8 +213,12 @@
       sendInvoice(){
         axios({
           method:'POST',
-          url:`http://localhost:3002/api/invoice`,
+          url:`http://localhost:3002/api/invoiceEmail`,
           data: {
+            from: this.from,
+            to: this.to,
+            cc: this.toClient,
+            bcc: this.toClient,
             from_client: this.fromClient,
             to_client: this.toClient,
             date: this.date,
@@ -196,6 +234,7 @@
             terms: this.terms,
             category: this.category,
             items: this.inputs
+
           }
         })
         .then(function(response) {
@@ -211,12 +250,26 @@
           quantity: i,
           amount: i
         })
-        console.log(this.inputs);
       },
       deleteRow(index) {
-        console.log(index);
         this.inputs.splice(index,1)
+      },
+      calculateAmount(index, price, quantity){
+        this.inputs[index].amount = price * quantity
       }
+    },
+    computed: {
+      subTotal(){
+        let suma = this.inputs.reduce((sum, item) => sum + item.amount, 0);
+        return suma + parseInt(this.shipping);
+      },
+      subTotalTax(){
+        return parseFloat(this.subTotal) + (parseFloat(this.subTotal) * parseInt(this.tax) / 100);
+      },
+      total(){
+        return parseFloat(this.subTotalTax) - (parseFloat(this.subTotalTax) * parseInt(this.discount) / 100);
+      }
+
     }
   }
 </script>
