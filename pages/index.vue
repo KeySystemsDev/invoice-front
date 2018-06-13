@@ -1,177 +1,183 @@
 <template>
   <div>
     <v-container fluid grid-list-md>
-      <v-layout row wrap>
-        <v-flex fluid xs12 md6 sm6>
-          <v-text-field
-            label="Su Nombre"
-            v-model="fromClient"
-          ></v-text-field>
-        </v-flex>
-        <v-flex fluid xs12 md6 sm6>
-          <v-text-field
-            label="Destinatario"
-            v-model="toClient"
-          ></v-text-field>
-        </v-flex>
-      </v-layout>
-      <v-layout row wrap>
-        <v-flex fluid xs12 md6 sm6>
-          <v-text-field
-            label="De"
-            v-model="from"
-          ></v-text-field>
-        </v-flex>
-        <v-flex fluid xs12 md6 sm6>
-          <v-text-field
-            label="Para"
-            v-model="to"
-          ></v-text-field>
-        </v-flex>
-      </v-layout>
-      <v-layout row wrap>
-        <v-flex fluid xs12 md12 sm12>
-          <v-text-field
-            label="Asunto"
-            v-model="subject"
-          ></v-text-field>
-        </v-flex>
-      </v-layout>
-      <v-layout row wrap>
-        <v-flex fluid xs12 md6 sm6>
-          <v-text-field
-            label="Fecha"
-            v-model="date"
-          ></v-text-field>
-        </v-flex>
-        <v-flex fluid xs12 md6 sm6>
-          <v-text-field
-            label="Numero"
-            v-model="numberInvoice"
-          ></v-text-field>
-        </v-flex>
-      </v-layout>
-      <v-layout row wrap>
-        <v-flex fluid xs12 md6 sm6>
-          <v-select
-            :items="itemsPayment"
-            v-model="payment"
-            label="Tipo de Pago"
-          ></v-select>
-        </v-flex>
-        <v-flex fluid xs12 md6 sm6>
-          <v-text-field
-            label="Expira"
-            v-model="expiration"
-          ></v-text-field>
-        </v-flex>
-      </v-layout>
-      <v-layout row wrap>
-        <v-flex fluid xs12 md6 sm6>
-          <v-select
-            :items="itemsCategory"
-            v-model="category"
-            label="Rubro"
-          ></v-select>
-        </v-flex>
+      <h1 class="title">1. Datos Basicos</h1>
+      <v-card class="card-box">
+        <v-layout row wrap>
+          <v-flex fluid xs12 md6 sm6>
+            <v-text-field
+              label="Su Nombre"
+              v-model="fromClient"
+            ></v-text-field>
+          </v-flex>
+          <v-flex fluid xs12 md6 sm6>
+            <v-text-field
+              label="Destinatario"
+              v-model="toClient"
+            ></v-text-field>
+          </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+          <v-flex fluid xs12 md6 sm6>
+            <v-text-field
+              label="De"
+              v-model="from"
+            ></v-text-field>
+          </v-flex>
+          <v-flex fluid xs12 md6 sm6>
+            <v-text-field
+              label="Para"
+              v-model="to"
+            ></v-text-field>
+          </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+          <v-flex fluid xs12 md12 sm12>
+            <v-text-field
+              label="Asunto"
+              v-model="subject"
+            ></v-text-field>
+          </v-flex>
+        </v-layout>
+      </v-card>
+      <h1 class="title">2. Datos de la Factura</h1>
+      <v-card  class="card-box">
+        <v-layout row wrap>
+          <v-flex fluid xs12 md6 sm6>
+            <v-text-field
+              label="Fecha"
+              v-model="date"
+            ></v-text-field>
+          </v-flex>
+          <v-flex fluid xs12 md6 sm6>
+            <v-text-field
+              label="Numero"
+              v-model="numberInvoice"
+            ></v-text-field>
+          </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+          <v-flex fluid xs12 md6 sm6>
+            <v-select
+              :items="itemsPayment"
+              v-model="payment"
+              label="Tipo de Pago"
+            ></v-select>
+          </v-flex>
+          <v-flex fluid xs12 md6 sm6>
+            <v-text-field
+              label="Expira"
+              v-model="expiration"
+            ></v-text-field>
+          </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+          <v-flex fluid xs12 md6 sm6>
+            <v-select
+              :items="itemsCategory"
+              v-model="category"
+              label="Rubro"
+            ></v-select>
+          </v-flex>
+        </v-layout>
+      </v-card>
 
-      </v-layout>
-      <hr>
-      <v-layout row wrap  v-for="(input, index) in inputs" :key="index">
-        <v-flex xs12 md6 sm6>
-          <v-text-field
-            label="Descripción"
-            v-model="input.description"
-          ></v-text-field>
-        </v-flex>
-        <v-flex xs12 md2 sm2>
-          <v-text-field
-            label="Precio"
-            type="number"
-            v-model="input.price"
-          ></v-text-field>
-        </v-flex>
-        <v-flex xs12 md1 sm1>
-          <v-text-field
-            label="Cantidad"
-            type="number"
-            v-model="input.quantity"
-            :change="calculateAmount(index, input.price, input.quantity)"
-
-          ></v-text-field>
-        </v-flex>
-        <v-flex xs12 md2 sm2>
-          <v-text-field
-            label="Amount"
-            v-model="input.amount"
-            disabled
-          ></v-text-field>
-        </v-flex>
-        <v-flex xs12 md1 sm1>
-          <v-btn color="success" @click="deleteRow(index)">x</v-btn>
-        </v-flex>
-      </v-layout>
-
-
+      <h1 class="title">3. Detalle de la Compra</h1>
       <v-layout row wrap>
         <v-flex xs12 md1 sm1>
           <v-btn color="success" @click="addRow()">Agregar</v-btn>
         </v-flex>
       </v-layout>
+      <v-card class="card-box mt20" v-for="(input, index) in inputs" :key="index">
+        <v-layout row wrap>
+          <v-btn class="cerrar" fab dark small color="red" @click="deleteRow(index)">
+            <v-icon dark>close</v-icon>
+          </v-btn>
+          <v-flex xs12 md6 sm6>
+            <v-text-field
+              label="Descripción"
+              v-model="input.description"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs12 md2 sm2>
+            <v-text-field
+              label="Precio"
+              type="number"
+              v-model="input.price"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs12 md1 sm1>
+            <v-text-field
+              label="Cantidad"
+              type="number"
+              v-model="input.quantity"
+              :change="calculateAmount(index, input.price, input.quantity)"
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs12 md2 sm2>
+            <v-text-field
+              label="Amount"
+              v-model="input.amount"
+              disabled
+            ></v-text-field>
+          </v-flex>
+        </v-layout>
+      </v-card>
 
-      <v-layout row wrap>
-        <v-flex fluid xs12 md6 sm6>
-          <v-text-field
-            label="Envío"
-            type="number"
-            v-model="shipping"
-          ></v-text-field>
-        </v-flex>
-      </v-layout>
-      <v-layout row wrap>
-        <v-flex fluid xs12 md6 sm6>
-          <v-text-field
-            label="Sub Total"
-            type="number"
-            v-model="subTotal"
-          ></v-text-field>
-        </v-flex>
-      </v-layout>
-      <v-layout row wrap>
-        <v-flex fluid xs12 md6 sm6>
-          <v-text-field
-            label="Impuesto"
-            type="number"
-            v-model="tax"
-          ></v-text-field>
-        </v-flex>
-        Sub total con impuesto: {{ subTotalTax }}
-      </v-layout>
-      <v-layout row wrap>
-        <v-flex fluid xs12 md6 sm6>
-          <v-text-field
-            label="Descuento"
-            type="number"
-            v-model="discount"
-          ></v-text-field>
-        </v-flex>
-      </v-layout>
+      <h1 class="title">4. Envio y Totales</h1>
+      <v-card class="card-box">
+        <v-layout row wrap>
+          <v-flex fluid xs12 md6 sm6>
+            <v-text-field
+              label="Envío"
+              type="number"
+              v-model="shipping"
+            ></v-text-field>
+          </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+          <v-flex fluid xs12 md6 sm6>
+            <v-text-field
+              label="Sub Total"
+              type="number"
+              v-model="subTotal"
+            ></v-text-field>
+          </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+          <v-flex fluid xs12 md6 sm6>
+            <v-text-field
+              label="Impuesto"
+              type="number"
+              v-model="tax"
+            ></v-text-field>
+          </v-flex>
+          Sub total con impuesto: {{ subTotalTax }}
+        </v-layout>
+        <v-layout row wrap>
+          <v-flex fluid xs12 md6 sm6>
+            <v-text-field
+              label="Descuento"
+              type="number"
+              v-model="discount"
+            ></v-text-field>
+          </v-flex>
+        </v-layout>
+        <v-layout row wrap>
+          <v-flex fluid xs12 md6 sm6>
+            <v-text-field
+              label="Total"
+              v-model="total"
+            ></v-text-field>
+          </v-flex>
+          <v-flex fluid xs12 md6 sm6>
+          </v-flex>
+        </v-layout>
+      </v-card>
 
-      <v-layout row wrap>
-        <v-flex fluid xs12 md6 sm6>
-          <v-text-field
-            label="Total"
-            v-model="total"
-          ></v-text-field>
-        </v-flex>
-        <v-flex fluid xs12 md6 sm6>
 
-        </v-flex>
-      </v-layout>
-
-
-
-      <v-flex xs12 md1 sm1>
+      <br><br>
+      <v-flex xs12 md1 sm1 center>
         <v-btn color="success" @click="sendInvoice()">Enviar</v-btn>
       </v-flex>
 
@@ -285,6 +291,31 @@
 </script>
 
 <style>
+
+.card-box{
+  padding:12px;
+}
+.title{
+  font-size: 1px;
+  margin-top: 35px;
+  margin-bottom: 15px;
+  font-weight: 200;
+}
+.mt20{
+  margin-top:20px;
+}
+.cerrar{
+  position: absolute;
+  right: -18px;
+  top: -20px;
+}
+
+
+@media only screen and (max-width: 599px){
+  .container {
+      padding: 5px 5px;
+  }
+}
 
 
 </style>
