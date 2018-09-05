@@ -22,7 +22,7 @@ module.exports = {
     ],
     //Implementación chatlio
     script: [
-      { src: 'https://apis.google.com/js/api:client.js' }
+      // { src: 'https://apis.google.com/js/api:client.js' }
       // { src: 'https://s3-us-west-2.amazonaws.com/pharol-v2/js/chatlio.js' }
     ]
   },

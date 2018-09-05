@@ -1,7 +1,7 @@
 {
-  "name": "pharol_nuxt",
+  "name": "Factura",
   "version": "1.0.0",
-  "description": "Nuxt.js project",
+  "description": "Factura Online",
   "author": "dirlant <diego.carciente.com>",
   "private": true,
   "scripts": {
@@ -15,7 +15,7 @@
   "config": {
     "nuxt": {
       "host": "0.0.0.0",
-      "port": "8000"
+      "port": "9000"
     }
   },
   "dependencies": {
